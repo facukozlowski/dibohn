@@ -11,9 +11,8 @@ const saleSchema = new Schema({
         required: [true, "total is required"],
         try: true,
     },
-    Products: {
-        
-    }
-});
+    products:  [{ name: String, product_id:String, cant: String, unitPrice:String }],
+        required: [true]
+    });
 
 export default models.Sale || model("Sale", saleSchema);

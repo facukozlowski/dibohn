@@ -1,6 +1,5 @@
 import { dbConnect } from "@/utils/mongoosefacu"
-import Category from "@/models/Categoryfacu";
-import Product from "@/models/Productfacu";
+import Sale from "@/models/Salefacu";
 
 dbConnect();
 
@@ -14,30 +13,26 @@ export default  async (req, res) => {
     switch(method){
         case "GET":
             try {
-            const category = await Category.findById(id);
-            if (!category) return res.status(404).json({ msg: "Category not exist"});
-            return res.status(200).json(category); 
+            const sale = await Sale.findById(id);
+            if (!sale) return res.status(404).json({ msg: "Sale not exist"});
+            return res.status(200).json(sale); 
             } catch (error) {
                 return res.status(500).json({ msg: error.message});
             }      
         case "PUT":
             try {
-                const category = await Category.findByIdAndUpdate(id, body, {
+                const sale = await Sale.findByIdAndUpdate(id, body, {
                     new: true,
                 });
-                if (!category) return res.status(404).json({ msg: "Category not exist"});
-                return res.status(200).json(category);
+                if (!sale) return res.status(404).json({ msg: "Sale not exist"});
+                return res.status(200).json(sale);
             } catch (error) {
                 return res.status(500).json({ msg: error.message});
             }
         case "DELETE":
             try {
-                const deletedCategory = await Category.findByIdAndDelete(id);
-                if (!deletedCategory) return res.status(404).json({msg : "Category not exist"});
-
-                await Product.deleteMany({category_id:id});
-          
-
+                const deletedSale = await Sale.findByIdAndDelete(id);
+                if (!deletedSale) return res.status(404).json({msg : "Sale not exist"});
                 return res.status(204).json();
             } catch (error) {
                 return res.status(400).json({msg: error.message});
