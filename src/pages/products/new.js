@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Form, Grid, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
-const NewProduct = ({ brand, category }) => {
+const NewProduct = ({ brands, categories }) => {
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -144,7 +144,7 @@ const NewProduct = ({ brand, category }) => {
                         : null
                     }>
                     <option value="">Select</option>
-                    {brand.map(brand => (
+                    {brands.map(brand => (
                       <option key={brand._id} value={brand._id}>{brand.name}</option>
                     ))}
                   </select>
@@ -163,12 +163,17 @@ const NewProduct = ({ brand, category }) => {
 
 
 export const getServerSideProps = async (ctx) => {
-  const res = await fetch('http://localhost:3000/api/brands'); 
-  const brand = await res.json()
+  const res_brands = await fetch('http://localhost:3000/api/brands'); 
+  const brands = await res_brands.json()
+
+
+  const res_categories = await fetch('http://localhost:3000/api/category'); 
+  const categories = await res_categories.json()
 
   return {
     props: {
-      brand,
+      brands,
+      categories
     },
   };
 }

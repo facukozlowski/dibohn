@@ -8,10 +8,13 @@ import {
 } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import ModalDelete from "./modalDelete";
+
 
 
 export default function HomePage({ brands }) {
   const router = useRouter();
+
 
   
   //Si no existen marcas creadas, mostrar esto:
@@ -64,6 +67,8 @@ export default function HomePage({ brands }) {
                   Editar
                 </button>
               </div>
+              <ModalDelete brand={brand} />
+              
 
             </Card.Content>
           </Card>
