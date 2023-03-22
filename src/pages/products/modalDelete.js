@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
-const ModalDelete = ({ brand }) => {
+const ModalDelete = ({ products }) => {
 const [open, setOpen] = useState(false)
 
 
-  const deleteBrand = async () => {
+  const deleteProduct = async () => {
     try {
-      await fetch(`http://localhost:3000/api/brands/${brand._id}`, {
+      await fetch(`http://localhost:3000/api/products/${products._id}`, {
         method: "DELETE",
       });
       location.reload();
@@ -21,7 +21,7 @@ const [open, setOpen] = useState(false)
 
     const handleDelete = async () => {
     setIsDeleting(true);
-    await deleteBrand();
+    await deleteCategory();
     push("/");
     close();
   }; */
@@ -37,7 +37,7 @@ const [open, setOpen] = useState(false)
       <Modal.Content>
         <Modal.Description>
           <p>
-            Se eliminara la sigueinte marca: {brand.name}, desea continuar?
+            Se eliminara el siguiente producto: {products.name}, desea continuar?
           </p>
         </Modal.Description>
       </Modal.Content>
@@ -45,7 +45,7 @@ const [open, setOpen] = useState(false)
         <Button color='black' onClick={() => setOpen(false)}>
           Cancelar
         </Button>
-        <Button color='negative' onClick={() => deleteBrand()}>
+        <Button color='negative' onClick={() => deleteProduct()}>
           Eliminar
         </Button>
       </Modal.Actions>

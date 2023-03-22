@@ -1,5 +1,6 @@
 import { Button, Card, Container, Grid } from "semantic-ui-react";
 import { useRouter } from "next/router";
+import ModalDelete from "./modalDelete";
 
 export default function HomePage({ products }) {
   //Si no existen productos mostrar lo siguiente:
@@ -13,7 +14,7 @@ export default function HomePage({ products }) {
         style={{ heigth: "80vh" }}
       >
         <Grid.Row>
-          <Grid.Column textAlign="center" style= {{margin: '200px'}}>
+          <Grid.Column textAlign="center" style={{ margin: "200px" }}>
             <h1>No existen productos creados</h1>
             <div>
               <Button primary onClick={() => router.push("/products/new")}>
@@ -40,7 +41,7 @@ export default function HomePage({ products }) {
             <Card.Content extra textAlign="center">
               <div class="ui buttons" style={{ padding: "0.5rem" }}>
                 <button
-                  class="ui inverted green button"
+                  class="ui black basic button"
                   onClick={() => router.push(`/products/${products._id}`)}
                 >
                   Ver
@@ -48,12 +49,14 @@ export default function HomePage({ products }) {
               </div>
               <div class="ui buttons" style={{ padding: "0.5rem" }}>
                 <button
-                  class="ui inverted secondary button"
+                  class="ui olive basic button"
                   onClick={() => router.push(`/products/${products._id}/edit`)}
                 >
                   Editar
                 </button>
               </div>
+
+              <ModalDelete products={products} />
             </Card.Content>
           </Card>
         ))}

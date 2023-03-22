@@ -42,14 +42,6 @@ export default  async (req, res) => {
                   // const products = await Product.find({brand_id:id});
 
           await Product.deleteMany({brand_id:id});
-          
-          
-          /* Promise.all(
-              products.map(async (item)=> {
-
-                const brand = await Product.findByIdAndDelete(item._id);   
-              })
-            ); */
 
                 return res.status(204).json();
             } catch (error) {

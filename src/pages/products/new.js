@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Button, Form, Grid, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
-const NewProduct = ({ brands, categories }) => {
-  const [newProduct, setNewProduct] = useState({
+
+const NewProduct = ( {brands, categories} ) => {
+  const [NewProduct, setNewProduct] = useState({
     name: "",
     description: "",
-    brand_name: "",
-    category_name:""
+    brand: "",
+    category: ""
   });
   const { query, push } = useRouter();
 
@@ -17,7 +18,7 @@ const NewProduct = ({ brands, categories }) => {
   const getProduct = async () => {
     const res = await fetch("http://localhost:3000/api/products/" + query.id);
     const data = await res.json();
-    setNewProduct({ name: data.name, description: data.description, brand_name: data.brand_name, category_name: data.category_name });
+    setNewProduct({ name: data.name, description: data.description, brand: data.brand, category: data.category });
   };
 
   useEffect(() => {
@@ -42,23 +43,20 @@ const NewProduct = ({ brands, categories }) => {
   };
 
   const handleChange = (e) =>
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    setNewProduct({ ...NewProduct, [e.target.name]: e.target.value });
 
   const validate = () => {
     let errors = {};
 
-    if (!newProduct.name) {
+    if (!NewProduct.name) {
       errors.name = "Name is required";
     }
-    if (!newProduct.description) {
-      errors.description = "Description is required";
+    if (!NewProduct.brand) {
+      errors.brands = "Brand is required";
     }
-    if (!newProduct.brand_name) {
-      errors.brand_name = "Brand is required";
+    if (!NewProduct.category) {
+      errors.category = "Category is required";
     }
-    if (!newProduct.category_name) {
-        errors.category_name = "Category is required";
-      }
 
     return errors;
   };
@@ -70,7 +68,7 @@ const NewProduct = ({ brands, categories }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(NewProduct),
       });
     } catch (error) {
       console.error(error);
@@ -84,7 +82,7 @@ const NewProduct = ({ brands, categories }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newProduct),
+        body: JSON.stringify(NewProduct),
       });
     } catch (error) {
       console.error(error);
@@ -101,7 +99,7 @@ const NewProduct = ({ brands, categories }) => {
       <Grid.Row>
         <Grid.Column textAlign="center">
           <div className="form-container">
-            <h1>{!query.id ? "Agregar producto" : "Actualizar producto"}</h1>
+            <h1>{!query.id ? "Agregar nuevo producto" : "Actualizar producto"}</h1>
             <div>
               {isSubmitting ? (
                 <Loader active inline="centered" />
@@ -115,39 +113,34 @@ const NewProduct = ({ brands, categories }) => {
                     }
                     label="Name"
                     placeholder="Name"
-                    name="Name"
+                    name="name"
                     onChange={handleChange}
-                    value={newProduct.name}
+                    value={NewProduct.name}
                     autoFocus
                   />
                   <Form.TextArea
-                    error={
-                      errors.description
-                        ? {
-                          content: "Please enter a Description",
-                          pointing: "below",
-                        }
-                        : null
-                    }
                     label="Description"
                     placeholder="Description"
                     name="description"
                     onChange={handleChange}
-                    value={newProduct.description}
+                    value={NewProduct.description}
                   />
                   <select
                     name="brand"
                     onChange={handleChange}
                     error={
-                      errors.brand_name
-                        ? { content: "Please choice a brand", pointing: "below" }
+                      errors.brands
+                        ? { content: "Please select a Brand", pointing: "below" }
                         : null
                     }>
-                    <option value="">Select</option>
+                    <option value="">Brand</option>
                     {brands.map(brand => (
                       <option key={brand._id} value={brand._id}>{brand.name}</option>
                     ))}
                   </select>
+                  
+                  
+
                   <div class="ui buttons" style={{ padding: "2rem" }}>
                     <button class="ui positive button">Save</button>
                   </div>
@@ -161,21 +154,18 @@ const NewProduct = ({ brands, categories }) => {
   );
 };
 
-
 export const getServerSideProps = async (ctx) => {
-  const res_brands = await fetch('http://localhost:3000/api/brands'); 
-  const brands = await res_brands.json()
+  const res = await fetch('http://localhost:3000/api/brands');
+  const brands = await res.json();
 
-
-  const res_categories = await fetch('http://localhost:3000/api/category'); 
-  const categories = await res_categories.json()
 
   return {
     props: {
       brands,
-      categories
     },
   };
 }
+
+
 
 export default NewProduct;

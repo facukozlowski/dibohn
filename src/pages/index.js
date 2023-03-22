@@ -27,7 +27,7 @@ export default function HomePage({ products }) {
               <div class="ui buttons" style={{ padding: "2rem" }}>
                 <button
                   class="ui secondary button"
-                  onClick={() => router.push(`/category`)}
+                  onClick={() => router.push(`/categories`)}
                 >
                   Categorias
                 </button>

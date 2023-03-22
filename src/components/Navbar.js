@@ -17,7 +17,7 @@ export const Navbar = () => {
         </Menu.Item>
         <Menu.Menu position="right">
             <Menu.Item>
-            <button class="ui inverted button" onClick={() => router.push('/brands/new')}>Agregar Marca</button>
+            <button class="ui inverted button" onClick={() => router.push('/products/new')}>Agregar nuevo producto</button>
             </Menu.Item>
         </Menu.Menu>
       </Container>

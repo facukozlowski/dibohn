@@ -12,13 +12,13 @@ import ModalDelete from "./modalDelete";
 
 
 
-export default function HomePage({ brands }) {
+export default function HomePage({ categories }) {
   const router = useRouter();
 
 
   
-  //Si no existen marcas creadas, mostrar esto:
-  if (brands.legth === 0)
+  //Si no existen categorias creadas, mostrar esto:
+  if (categories.legth === 0)
     return (
       <Grid
         centered
@@ -28,30 +28,30 @@ export default function HomePage({ brands }) {
       >
         <Grid.Row>
           <Grid.Column textAlign="center">
-            <h1>No existen marcas en la base de datos</h1>
+            <h1>No existen categorias en la base de datos</h1>
             <div>
-              <Button primary>Agregar marca</Button>
+              <Button primary>Agregar categoria</Button>
             </div>
           </Grid.Column>
         </Grid.Row>
       </Grid>
     );
 
-  //Lista de marcas en caso de existir:
+  //Lista de categorias en caso de existir:
 
   return (
     <Container style={{ padding: "20px" }}>
       <Card.Group itemsPerRow={4}>
-        {brands.map((brand) => (
-          <Card key={brand._id}>
+        {categories.map((category) => (
+          <Card key={category._id}>
             <Card.Content textAlign="center">
-              <Card.Header>{brand.name}</Card.Header>
+              <Card.Header>{category.name}</Card.Header>
             </Card.Content>
             <Card.Content extra textAlign="center">
               <div class="ui buttons" style={{ padding: "0.5rem" }}>
                 <button
                   class="ui black basic button"
-                  onClick={() => router.push(`/brands/${brand._id}`)}
+                  onClick={() => router.push(`/categories/${category._id}`)}
                 >
                   Ver
                 </button>
@@ -60,14 +60,14 @@ export default function HomePage({ brands }) {
                 <button
                   class="ui olive basic button"
                   onClick={() => {
-                    const URL = `/brands/${brand._id}/edit`;
+                    const URL = `/categories/${category._id}/edit`;
                     router.push(URL);
                   }}
                 >
                   Editar
                 </button>
               </div>
-              <ModalDelete brand={brand} />
+              <ModalDelete category={category} />
               
 
             </Card.Content>
@@ -79,12 +79,12 @@ export default function HomePage({ brands }) {
 }
 
 export const getServerSideProps = async (ctx) => {
-  const res = await fetch("http://localhost:3000/api/brands");
-  const brands = await res.json();
+  const res = await fetch("http://localhost:3000/api/categories");
+  const categories = await res.json();
 
   return {
     props: {
-      brands,
+      categories,
     },
   };
 };

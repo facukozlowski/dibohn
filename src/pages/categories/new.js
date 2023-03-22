@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Button, Form, Grid, Loader } from "semantic-ui-react";
 import { useRouter } from "next/router";
 
-const Newcategory = () => {
-  const [Newcategory, setNewcategory] = useState({
+const newCategory = () => {
+  const [newCategory, setNewCategory] = useState({
     name: "",
   });
   const { query, push } = useRouter();
@@ -11,14 +11,14 @@ const Newcategory = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const getcategory = async () => {
-    const res = await fetch("http://localhost:3000/api/category/" + query.id);
+  const getCategory = async () => {
+    const res = await fetch("http://localhost:3000/api/categories/" + query.id);
     const data = await res.json();
-    setNewcategory({ name: data.name });
+    setNewCategory({ name: data.name });
   };
 
   useEffect(() => {
-    if (query.id) getcategory();
+    if (query.id) getCategory();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -30,49 +30,49 @@ const Newcategory = () => {
     setIsSubmitting(true);
 
     if (query.id) {
-      await updatecategory();
+      await updateCategory();
     } else {
-      await createcategory();
+      await createCategory();
     }
 
     await push("/");
   };
 
   const handleChange = (e) =>
-    setNewcategory({ ...Newcategory, [e.target.name]: e.target.value });
+    setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
 
   const validate = () => {
     let errors = {};
 
-    if (!Newcategory.name) {
+    if (!newCategory.name) {
       errors.name = "Name is required";
     }
 
     return errors;
   };
 
-  const createcategory = async () => {
+  const createCategory = async () => {
     try {
-      await fetch("http://localhost:3000/api/category", {
+      await fetch("http://localhost:3000/api/categories", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(Newcategory),
+        body: JSON.stringify(newCategory),
       });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const updatecategory = async () => {
+  const updateCategory = async () => {
     try {
-      await fetch("http://localhost:3000/api/category/" + query.id, {
+      await fetch("http://localhost:3000/api/categories/" + query.id, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(Newcategory),
+        body: JSON.stringify(newCategory),
       });
     } catch (error) {
       console.error(error);
@@ -105,7 +105,7 @@ const Newcategory = () => {
                     placeholder="Name"
                     name="name"
                     onChange={handleChange}
-                    value={Newcategory.name}
+                    value={newCategory.name}
                     autoFocus
                   />
                   <div class="ui buttons" style={{ padding: "1rem" }}>
@@ -121,4 +121,4 @@ const Newcategory = () => {
   );
 };
 
-export default Newcategory;
+export default newCategory;
